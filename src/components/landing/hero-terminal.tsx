@@ -4,31 +4,52 @@ import { useEffect, useState, type ReactNode } from 'react'
 import { TerminalWindow } from './terminal-window'
 
 /* ------------------------------------------------------------------ */
-/* Real `exit-capsule scan` session — reproduced 1:1 from the actual   */
-/* PowerShell run against the remote GitHub repository.               */
+/* Mock demo session — fictional repository, user, directories and     */
+/* scan results. No real repo, machine or CLI run is reproduced here.  */
+/* Story: the code migrated from requests to httpx but the manifest    */
+/* was never updated — httpx is undeclared, requests is dead weight.   */
 /* ------------------------------------------------------------------ */
 
-const PROMPT = 'PS C:\\Users\\kiran>'
+const PROMPT = 'PS C:\\Users\\dev>'
 const BIN = 'exit-capsule scan '
-const URL = 'https://github.com/NonHumanPerson/H26_ShadowGarden_exit-capsule'
+const URL = 'https://github.com/devstack-labs/taskflow-api'
 const COMMAND = BIN + URL
-const REPO = 'H26_ShadowGarden_exit-capsule'
-const MD_PATH = 'C:\\Users\\kiran\\H26_ShadowGarden_exit-capsule_DEPENDENCY_EXIT_CAPSULE.md'
+const REPO = 'taskflow-api'
+const MD_PATH = 'C:\\Users\\dev\\taskflow-api_DEPENDENCY_EXIT_CAPSULE.md'
 
 const TYPE_MS = 24
 
-const RISK_TEXT = 'Missing from manifests (runtime ImportError)'
+const RISK_UNDECLARED = 'Missing from manifests (runtime ImportError)'
+const RISK_UNUSED = 'No imports found in codebase'
 
 const AT_RISK_ROWS = [
-  { pkg: 'repo-scanner', usage: 'scripts\\run_capsule.py:32' },
-  { pkg: 'test-runner', usage: 'scripts\\run_capsule.py:33' },
-  { pkg: 'tomli', usage: 'scripts\\repo_scanner.py:13' },
+  {
+    pkg: 'pyyaml',
+    status: 'Undeclared',
+    statusColor: 'text-[#f85149]',
+    risk: RISK_UNDECLARED,
+    usage: 'app\\config\\settings.py:8',
+  },
+  {
+    pkg: 'httpx',
+    status: 'Undeclared',
+    statusColor: 'text-[#f85149]',
+    risk: RISK_UNDECLARED,
+    usage: 'app\\services\\notify.py:14',
+  },
+  {
+    pkg: 'requests',
+    status: 'Unused (bloat)',
+    statusColor: 'text-[#e3b341]',
+    risk: RISK_UNUSED,
+    usage: 'requirements.txt:4',
+  },
 ] as const
 
-/* Column widths (ch) measured from the real CLI output:
-   15ch package · 13ch status · 47ch risk · usage tail  */
+/* Column widths (ch) measured from the CLI's own table layout:
+   15ch package · 15ch status · 47ch risk · usage tail  */
 const COL_PKG = 'w-[15ch] shrink-0'
-const COL_STATUS = 'w-[13ch] shrink-0'
+const COL_STATUS = 'w-[15ch] shrink-0'
 const COL_RISK = 'w-[47ch] shrink-0'
 
 function Caret() {
@@ -75,7 +96,7 @@ function SummaryBlock() {
     <>
       <div className="whitespace-nowrap font-semibold text-[#c9d1d9]">📊 Summary</div>
       <div className="whitespace-nowrap">
-        <span className="text-[#8b949e]">3 dependencies scanned</span>
+        <span className="text-[#8b949e]">12 dependencies scanned</span>
         <span className="text-[#484f58]"> | </span>
         <span className="text-[#f85149]">3 at-risk</span>
         <span className="text-[#484f58]"> | </span>
@@ -117,8 +138,8 @@ function AtRiskRow({ row }: { row: (typeof AT_RISK_ROWS)[number] }) {
   return (
     <div className="flex whitespace-nowrap pl-[2ch]">
       <span className={`${COL_PKG} text-[#c9d1d9]`}>{row.pkg}</span>
-      <span className={`${COL_STATUS} text-[#e3b341]`}>Undeclared</span>
-      <span className={`${COL_RISK} text-[#8b949e]`}>{RISK_TEXT}</span>
+      <span className={`${COL_STATUS} ${row.statusColor}`}>{row.status}</span>
+      <span className={`${COL_RISK} text-[#8b949e]`}>{row.risk}</span>
       <span className="text-[#79c0ff]">{row.usage}</span>
     </div>
   )
@@ -151,7 +172,13 @@ function MigrationBlock() {
         <span className="text-[#6e7681]">&nbsp;1. </span>
         <span className="text-[#c9d1d9]">Pin undeclared dependencies</span>
         <span className="text-[#3fb950]"> ➜ </span>
-        <span className="text-[#8b949e]">Add repo-scanner, test-runner, tomli to manifests</span>
+        <span className="text-[#8b949e]">Add pyyaml, httpx to requirements.txt</span>
+      </div>
+      <div className="whitespace-nowrap">
+        <span className="text-[#6e7681]">&nbsp;2. </span>
+        <span className="text-[#c9d1d9]">Remove unused bloat</span>
+        <span className="text-[#3fb950]"> ➜ </span>
+        <span className="text-[#8b949e]">Drop requests from requirements.txt (HTTP handled by httpx)</span>
       </div>
     </>
   )
@@ -221,15 +248,16 @@ export function ScanTerminal() {
   ]
 
   return (
-    <TerminalWindow title="PowerShell — C:\Users\kiran">
+    <TerminalWindow title="PowerShell — C:\Users\dev">
       <div className="scrollbar-slim overflow-x-auto px-4 py-4 font-mono text-[12px] leading-[1.75] sm:px-5 sm:text-[12.5px]">
         <div className="sr-only" aria-live="polite">
-          exit-capsule scan cloned the remote GitHub repository and generated its Dependency Exit
-          Capsule: 3 dependencies scanned, 3 at-risk — repo-scanner, test-runner and tomli are
-          undeclared, missing from manifests with runtime ImportError. Baseline tests skipped; run
-          with --verify for the live pytest suite. Migration priority: pin the undeclared
-          dependencies. Detailed report saved to H26_ShadowGarden_exit-capsule_DEPENDENCY_EXIT_CAPSULE.md.
-          See AI_INTEGRATION_GUIDE.md for Gemini AI code refactoring diffs.
+          exit-capsule scan cloned the demo GitHub repository taskflow-api and generated its
+          Dependency Exit Capsule: 12 dependencies scanned, 3 at-risk — pyyaml and httpx are
+          undeclared, missing from manifests with runtime ImportError, and requests is unused
+          bloat. Baseline tests skipped; run with --verify for the live pytest suite. Migration
+          priorities: pin the undeclared dependencies, then drop the unused requests pin.
+          Detailed report saved to taskflow-api_DEPENDENCY_EXIT_CAPSULE.md. See
+          AI_INTEGRATION_GUIDE.md for Gemini AI code refactoring diffs.
         </div>
 
         <div className="flex items-start gap-2 whitespace-nowrap">
@@ -241,9 +269,7 @@ export function ScanTerminal() {
           </span>
         </div>
 
-        <div aria-hidden>
-          {stages.slice(0, stage).map((s) => s)}
-        </div>
+        <div aria-hidden>{stages.slice(0, stage).map((s) => s)}</div>
       </div>
     </TerminalWindow>
   )

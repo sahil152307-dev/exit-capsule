@@ -37,7 +37,7 @@ const USAGE_TABS: UsageTab[] = [
     icon: GitBranch,
     description:
       'Scan any remote Git repository without manual cloning — the agent fetches, analyzes and reports in a single command.',
-    command: 'exit-capsule scan https://github.com/jamiepine/voicebox.git',
+    command: 'exit-capsule scan https://github.com/devstack-labs/taskflow-api',
   },
   {
     id: 'show',

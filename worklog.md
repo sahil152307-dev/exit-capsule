@@ -135,3 +135,30 @@ Verification:
 
 Stage Summary:
 - Hero terminal now replays the user's actual `exit-capsule scan` PowerShell session against the remote repo, 1:1 with real output, fixing 2 layout bugs along the way (hero grid min-width blowout, pre-existing mobile tab overflow)
+
+---
+Task ID: 6
+Agent: Main Agent (Z.ai)
+Task: Per user feedback — convert ALL terminal data to MOCK: fictional GitHub repo, fictional user/directories, and a fictional scan result (exit-capsule cloning a mock repo). No real personal/repo data anywhere on the page.
+
+Work Log:
+- hero-terminal.tsx: full mock session replacing the real one —
+  - Mock repo: https://github.com/devstack-labs/taskflow-api (fictional org+repo, consistent story site-wide)
+  - Mock user/directory: PS C:\Users\dev> (was real C:\Users\kiran), title "PowerShell — C:\Users\dev", save path C:\Users\dev\taskflow-api_DEPENDENCY_EXIT_CAPSULE.md
+  - Mock scan narrative ("code migrated requests→httpx but manifest never updated"): 📊 12 dependencies scanned | 3 at-risk | Python project; 🔴 table rows pyyaml (Undeclared, app\config\settings.py:8), httpx (Undeclared, app\services\notify.py:14), requests (Unused (bloat), requirements.txt:4); risk strings "Missing from manifests (runtime ImportError)" / "No imports found in codebase"; 🧪 baseline skipped; 🎯 2 migration priorities (pin pyyaml+httpx, drop requests); 📄 + 💡 unchanged format
+  - Semantic status colors: Undeclared → red #f85149 (matches 🔴 critical + at-risk count), Unused (bloat) → amber #e3b341 (tool's real category vocabulary)
+  - Status column widened 13ch → 15ch for "Unused (bloat)" (14ch)
+  - File header comment now documents the fictional nature + the mock story
+- usage.tsx: "Remote Git" tab command — real third-party repo jamiepine/voicebox.git → mock devstack-labs/taskflow-api (last real-repo reference eliminated)
+- architecture.tsx: untouched — it shows the PRODUCT's own structure (not scanned demo data); "Undeclared" span found there is the tool's category vocabulary (legit)
+
+Verification:
+- lint clean
+- Real-data absence sweep on live DOM: kiran / H26 / ShadowGarden / NonHumanPerson / jamiepine / voicebox — ALL absent (textContent sweep of entire body)
+- Mock stream complete after 9.5s: prompt/command/cloning/done/summary(12|3)/3 rows/usage paths/test/both migration lines/saved path/tip/final caret — all present; Undeclared rgb(248,81,73), bloat rgb(227,179,65)
+- Geometry: desktop 1280 — card 603px in-cell, internal scroll 199px, page overflow 0; mobile 390 — overflow 0
+- Screenshot pipeline bug caught: earlier "desktop" capture was actually taken at 390px (viewport resize raced the capture) — recaptured after scroll-through at 1280 (1280×3354)
+- VLM audits: desktop A-F all pass (mock content complete, colors correct, traffic lights OK, zero real-data found, zero defects); mobile A-E all pass
+
+Stage Summary:
+- Page is now 100% mock-data: fictional repo (devstack-labs/taskflow-api), fictional user dir (C:\Users\dev), fictional scan results with a coherent dependency-hygiene story; zero real personal/repo references remain; verified on desktop + mobile with VLM audits

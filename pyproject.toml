@@ -8,9 +8,23 @@ version = "1.0.0"
 description = "Production-ready local Python CLI tool for repository dependency analysis, AST import mapping, test verification, and AI migration planning."
 readme = "README.md"
 requires-python = ">=3.10"
-license = "MIT"
+license = { file = "LICENSE" }
 authors = [
-    {name = "Sahil"}
+    { name = "Sahil", email = "your@email.com" }
+]
+keywords = ["cli", "dependencies", "ast", "migration", "analysis", "devtools"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Utilities",
 ]
 dependencies = [
     "typer>=0.9.0",
@@ -20,6 +34,12 @@ dependencies = [
     "packaging>=22.0",
     "python-dotenv>=1.0.0"
 ]
+
+[project.urls]
+Homepage = "https://github.com/sahil152307-dev/exit-capsule"
+Repository = "https://github.com/sahil152307-dev/exit-capsule"
+Issues = "https://github.com/sahil152307-dev/exit-capsule/issues"
+Changelog = "https://github.com/sahil152307-dev/exit-capsule/blob/main/CHANGELOG.md"
 
 [project.scripts]
 exit-capsule = "exit_capsule.cli:app"

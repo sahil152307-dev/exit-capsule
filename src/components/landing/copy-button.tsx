@@ -46,9 +46,9 @@ interface CopyButtonProps {
   value: string
   /** Base classes (sizing etc.) applied in both states. */
   className?: string
-  /** Classes applied while idle — defaults to the dark glass style. */
+  /** Classes applied while idle. */
   idleClassName?: string
-  /** Classes applied after copying — defaults to the emerald feedback style. */
+  /** Classes applied after copying. */
   copiedClassName?: string
   label?: string
   'aria-label'?: string
@@ -69,19 +69,19 @@ export function CopyButton({
       onClick={() => void copy(value)}
       aria-label={aria['aria-label'] ?? (copied ? 'Copied to clipboard' : 'Copy to clipboard')}
       className={cn(
-        'inline-flex shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-lg border font-medium transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400',
+        'inline-flex shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-md border text-[11px] font-medium transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#388bfd]',
         copied
           ? (copiedClassName ??
-              'border-emerald-500/60 bg-emerald-500/15 text-emerald-300 shadow-[0_0_16px_-2px_rgba(16,185,129,0.5)]')
+              'border-[#238636]/60 bg-[#238636]/15 text-[#3fb950]')
           : (idleClassName ??
-              'border-white/10 bg-white/[0.04] text-slate-400 hover:border-emerald-500/40 hover:bg-emerald-500/10 hover:text-emerald-300'),
+              'border-[#30363d] bg-transparent text-[#8b949e] hover:border-[#8b949e] hover:text-[#c9d1d9]'),
         className
       )}
     >
       {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
       {label ? (
-        <span className="text-xs">
-          {copied ? 'Copied!' : label}
+        <span className="font-mono">
+          {copied ? 'Copied' : label}
         </span>
       ) : null}
     </button>

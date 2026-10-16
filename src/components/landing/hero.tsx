@@ -1,148 +1,85 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Check, ExternalLink, Package, Rocket } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { CopyButton } from './copy-button'
-import { HeroTerminal } from './hero-terminal'
+import { HeroTerminals } from './hero-terminal'
 
 const PIP_COMMAND = 'pip install exit-capsule'
 
-const TRUST_TICKS = [
-  'Zero mock data',
-  'Subprocess-verified results',
-  'Works offline without an API key',
-]
-
 export function Hero() {
   return (
-    <section className="relative overflow-hidden px-4 pt-16 pb-20 sm:px-6 sm:pt-24 sm:pb-28">
-      <div className="mx-auto flex max-w-4xl flex-col items-center text-center">
-        {/* Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: 'easeOut' }}
-        >
-          <div className="badge-glow inline-flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 rounded-full border border-emerald-500/40 bg-emerald-500/[0.08] px-4 py-1.5 text-xs text-slate-300 backdrop-blur-sm">
-            <span className="inline-flex items-center gap-1.5 font-medium text-emerald-300">
-              <Package className="h-3.5 w-3.5" />
-              Live on PyPI
-            </span>
-            <span className="h-3 w-px bg-emerald-500/25" aria-hidden />
-            <span className="font-mono text-emerald-400/90">v1.0.0</span>
-            <span className="h-3 w-px bg-emerald-500/25" aria-hidden />
-            <span className="text-slate-300">Production-Ready CLI Tool</span>
-          </div>
-        </motion.div>
+    <section className="border-b border-[#21262d] px-4 pt-14 pb-16 sm:px-6 lg:pt-24 lg:pb-24">
+      <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[45fr_55fr] lg:gap-14">
+        {/* Left — copy */}
+        <div className="max-w-xl">
+          <motion.p
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
+            className="inline-flex items-center gap-2 rounded-full border border-[#30363d] bg-[#161b22] px-3 py-1 text-[13px] text-[#8b949e]"
+          >
+            <span className="h-2 w-2 rounded-full bg-[#a371f7]" aria-hidden />
+            Powered by <span className="font-medium text-[#d2a8ff]">Gemma 4</span>
+          </motion.p>
 
-        {/* Headline */}
-        <motion.h1
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.08, ease: 'easeOut' }}
-          className="mt-7 text-4xl font-bold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-[3.75rem]"
-        >
-          <span className="bg-gradient-to-r from-emerald-300 via-emerald-400 to-teal-300 bg-clip-text text-transparent drop-shadow-[0_0_24px_rgba(16,185,129,0.35)]">
-            Zero-Hallucination
-          </span>{' '}
-          Dependency Analysis{' '}
-          <span className="whitespace-nowrap">&amp;</span>{' '}
-          <span className="bg-gradient-to-r from-cyan-300 to-cyan-400 bg-clip-text text-transparent">
-            AI Modernization
-          </span>
-        </motion.h1>
+          <motion.h1
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, delay: 0.06, ease: 'easeOut' }}
+            className="mt-5 text-4xl leading-[1.08] font-bold tracking-[-0.025em] text-[#f0f6fc] sm:text-5xl lg:text-[52px]"
+          >
+            Automated Dependency Resilience &amp; Safe Migrations for Open Source
+          </motion.h1>
 
-        {/* Subheadline */}
-        <motion.p
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.16, ease: 'easeOut' }}
-          className="mt-6 max-w-2xl text-base leading-relaxed text-slate-400 sm:text-lg"
-        >
-          Perform real{' '}
-          <code className="rounded border border-white/10 bg-white/[0.05] px-1.5 py-0.5 font-mono text-[0.85em] text-emerald-300">
-            AST
-          </code>{' '}
-          import mapping, manifest auditing, sandbox{' '}
-          <code className="rounded border border-white/10 bg-white/[0.05] px-1.5 py-0.5 font-mono text-[0.85em] text-emerald-300">
-            Pytest
-          </code>{' '}
-          verification, and{' '}
-          <code className="rounded border border-white/10 bg-white/[0.05] px-1.5 py-0.5 font-mono text-[0.85em] text-cyan-300">
-            Gemini AI
-          </code>{' '}
-          migration roadmaps — straight from your terminal.
-        </motion.p>
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, delay: 0.12, ease: 'easeOut' }}
+            className="mt-5 text-[17px] leading-relaxed text-[#8b949e]"
+          >
+            Scan your repository, detect risky dependencies with Gemma 4, run
+            automated verification tests, and generate verified Dependency Exit
+            Capsules in seconds.
+          </motion.p>
 
-        {/* CTAs */}
-        <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.24, ease: 'easeOut' }}
-          className="mt-9 flex flex-col items-center gap-4 sm:flex-row sm:gap-5"
-        >
-          {/* Primary: Get Started + pip install with copy */}
-          <div className="inline-flex overflow-hidden rounded-xl shadow-[0_0_32px_-6px_rgba(16,185,129,0.5)] focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-emerald-400">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, delay: 0.18, ease: 'easeOut' }}
+            className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center"
+          >
             <a
-              href="#usage"
-              className="group inline-flex items-center gap-2.5 bg-gradient-to-b from-emerald-400 to-emerald-500 px-5 py-3.5 text-sm font-semibold text-[#04110b] transition-all hover:from-emerald-300 hover:to-emerald-400 sm:px-6"
+              href="#live-capsule"
+              className="inline-flex items-center justify-center gap-2 rounded-md border border-[#2ea043] bg-[#238636] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#2ea043] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#388bfd]"
             >
-              <Rocket className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-              Get Started
+              Explore the live demo
+              <ArrowRight className="h-4 w-4" />
             </a>
-            <div className="flex items-center gap-2 border-l border-emerald-600/40 bg-gradient-to-b from-emerald-500/90 to-emerald-600/90 py-3.5 pl-4 pr-2.5 sm:pl-5">
-              <code className="font-mono text-[13px] font-medium text-[#04110b]/90">
+
+            <div className="inline-flex items-center overflow-hidden rounded-md border border-[#30363d] bg-[#0d1117]">
+              <code className="px-3.5 py-2 font-mono text-[13px] text-[#c9d1d9]">
+                <span className="mr-1.5 select-none text-[#6e7681]">$</span>
                 {PIP_COMMAND}
               </code>
+              <span className="h-full border-l border-[#30363d]" aria-hidden />
               <CopyButton
                 value={PIP_COMMAND}
                 aria-label="Copy pip install command"
-                className="h-7 w-7"
-                idleClassName="border-[#04110b]/15 bg-[#04110b]/10 text-[#04110b]/70 hover:border-[#04110b]/25 hover:bg-[#04110b]/20 hover:text-[#04110b]"
-                copiedClassName="border-[#04110b]/30 bg-[#04110b]/20 text-[#04110b] shadow-none"
+                className="h-[38px] w-9 rounded-none border-0"
+                copiedClassName="border-0 bg-[#238636]/15 text-[#3fb950]"
               />
             </div>
-          </div>
+          </motion.div>
+        </div>
 
-          {/* Secondary: GitHub */}
-          <a
-            href="https://github.com/exitkit/exit-capsule"
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-6 py-3.5 text-sm font-medium text-slate-200 backdrop-blur-sm transition-all hover:border-cyan-400/40 hover:bg-cyan-400/[0.07] hover:text-cyan-300 hover:shadow-[0_0_28px_-8px_rgba(6,182,212,0.5)]"
-          >
-            View on GitHub
-            <ExternalLink className="h-4 w-4" />
-          </a>
-        </motion.div>
-
-        {/* Trust ticks */}
-        <motion.ul
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.36 }}
-          className="mt-7 flex flex-wrap items-center justify-center gap-x-6 gap-y-2"
-        >
-          {TRUST_TICKS.map((tick) => (
-            <li key={tick} className="flex items-center gap-1.5 text-xs text-slate-500">
-              <Check className="h-3.5 w-3.5 text-emerald-500" />
-              {tick}
-            </li>
-          ))}
-        </motion.ul>
-
-        {/* Terminal preview */}
+        {/* Right — terminal stack */}
         <motion.div
-          initial={{ opacity: 0, y: 26 }}
+          initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.65, delay: 0.42, ease: 'easeOut' }}
-          className="mt-14 w-full max-w-2xl"
+          transition={{ duration: 0.5, delay: 0.15, ease: 'easeOut' }}
         >
-          <HeroTerminal />
-          <div
-            aria-hidden
-            className="mx-auto mt-4 h-16 max-w-lg bg-emerald-500/10 blur-[42px]"
-          />
+          <HeroTerminals />
         </motion.div>
       </div>
     </section>

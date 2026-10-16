@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "**Audit Result: NO DEFECTS FOUND**\n\nThe page strictly adheres to the GitHub-dark aesthetic and all specific requirements:\n\n1.  **Hero Layout:** Correctly implements a two-column layout. The left column contains the \"Powered by Gemma 4\" badge, the main headline (\"Automated Dependency Resilience...\"), body text, a green CTA button, and a `pip install` code block. The right column contains two stacked terminal cards.\n2.  **Top Terminal Card:** Accurately displays dependency migrations (`requests` to `httpx`, `pyyaml` to `PyYAML`) with purple progress bars (94% and 97%), file references (e.g., `parser.py:42`), and status tags including red \"High Risk\", green \"pytests passed\", and amber \"1 gap found\".\n3.  **Bottom Terminal Card:** Correctly shows a green \"LIVE\" badge in the header and displays the scan command `$ exit-capsule scan ./LinkWatch --verify`.\n4.  **Aesthetic Compliance:** There are no neon glows, gradient text, or colorful shadows. The design uses flat colors (#0d1117 background, #161b22 cards, #30363d borders) consistent with the requested style. Inter typography is used throughout.\n5.  **Emojis:** No emojis are visible anywhere on the page.\n6.  **Layout Integrity:** No text overflow or overlapping elements are detected. Spacing is consistent and clean.\n7.  **Component Rendering:** Tabs, cards, directory tree sections, and footer links are rendering cleanly without visual artifacts.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1792156473,
+  "id": "202610162114271d155dccfd81417f",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202610162114271d155dccfd81417f",
+  "usage": {
+    "completion_tokens": 333,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 6292,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 6625
+  }
+}

@@ -1,24 +1,27 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Exit Capsule Agent — Zero-Hallucination Dependency Analysis & AI Modernization",
+  title: "ExitKit — Automated Dependency Resilience & Safe Migrations for Open Source",
   description:
-    "Perform real AST import mapping, manifest auditing, sandbox Pytest verification, and Gemini AI migration roadmaps — straight from your terminal.",
+    "Scan your repository, detect risky dependencies, run automated verification tests, and generate verified Dependency Exit Capsules in seconds.",
   keywords: [
     "exit-capsule",
+    "ExitKit",
     "dependency analysis",
     "AST scanning",
     "pytest verification",
@@ -32,17 +35,17 @@ export const metadata: Metadata = {
     icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
   },
   openGraph: {
-    title: "Exit Capsule Agent",
+    title: "ExitKit — Automated Dependency Resilience",
     description:
-      "Zero-hallucination dependency analysis & AI modernization — real AST import mapping, sandbox Pytest verification, and Gemini AI migration roadmaps from your terminal.",
-    siteName: "Exit Capsule Agent",
+      "Scan your repository, detect risky dependencies, run automated verification tests, and generate verified Dependency Exit Capsules in seconds.",
+    siteName: "ExitKit",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Exit Capsule Agent",
+    title: "ExitKit — Automated Dependency Resilience",
     description:
-      "Zero-hallucination dependency analysis & AI modernization — straight from your terminal.",
+      "Automated dependency resilience and safe migrations for open source.",
   },
 };
 
@@ -54,7 +57,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} bg-[#0D1117] text-slate-200 antialiased`}
+        className={`${inter.variable} ${jetbrainsMono.variable} bg-[#0d1117] text-[#c9d1d9] antialiased`}
       >
         {children}
         <Toaster />

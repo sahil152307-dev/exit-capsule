@@ -28,7 +28,7 @@ const USAGE_TABS: UsageTab[] = [
     label: 'Basic Scan',
     icon: FolderSearch,
     description:
-      'Point the scanner at any local project directory and auto-render a complete exit capsule report with dependency inventory and health scores.',
+      'Scan a target repository, display the full formatted report right in your CLI, and save DEPENDENCY_EXIT_CAPSULE.md to the project root.',
     command: 'exit-capsule scan /path/to/target-repo',
   },
   {
@@ -36,7 +36,7 @@ const USAGE_TABS: UsageTab[] = [
     label: 'Remote Git',
     icon: GitBranch,
     description:
-      'Scan any public Git repository directly — the agent clones, analyzes and reports in a single command. No manual checkout required.',
+      'Scan any remote Git repository without manual cloning — the agent fetches, analyzes and reports in a single command.',
     command: 'exit-capsule scan https://github.com/jamiepine/voicebox.git',
   },
   {
@@ -44,7 +44,7 @@ const USAGE_TABS: UsageTab[] = [
     label: 'Show Report',
     icon: FileText,
     description:
-      'Pretty-print an existing capsule report straight into your terminal with Rich-powered syntax highlighting and tables.',
+      'Instantly view any previously generated capsule in beautiful terminal markdown — works in PowerShell, CMD, iTerm and Claude Code.',
     command: 'exit-capsule show DEPENDENCY_EXIT_CAPSULE.md',
   },
   {
@@ -52,7 +52,7 @@ const USAGE_TABS: UsageTab[] = [
     label: 'Pytest Verify',
     icon: FlaskConical,
     description:
-      'Execute the real test suite in a subprocess sandbox — capturing exit codes, timing, stdout/stderr and test counts as verifiable evidence.',
+      'Run the test suite inside the target repository, measure execution time, capture exit codes, and include stdout/stderr traces in the capsule.',
     command: 'exit-capsule scan . --verify',
   },
   {
@@ -60,7 +60,7 @@ const USAGE_TABS: UsageTab[] = [
     label: 'Gemini AI',
     icon: Sparkles,
     description:
-      'Attach your Google Gemini API key to unlock AI-assisted technical debt evaluation and step-by-step modernization roadmaps.',
+      'Attach a Google Gemini API key to unlock technical-debt evaluation and step-by-step modernization roadmaps.',
     command: 'exit-capsule scan . --verify --api-key "YOUR_GEMINI_API_KEY"',
   },
   {
@@ -68,25 +68,22 @@ const USAGE_TABS: UsageTab[] = [
     label: 'CI/CD JSON',
     icon: Braces,
     description:
-      'Emit machine-readable JSON for CI pipelines, dependency dashboards and automated quality gates. Perfect for GitHub Actions.',
+      'Output scan results as raw JSON for CI/CD pipelines, dependency dashboards and automated quality gates.',
     command: 'exit-capsule scan . --json',
   },
 ]
 
-/** Token-level syntax highlighting for a shell command. */
+/** Token-level syntax coloring: binary white, flags blue, strings light blue. */
 function HighlightedCommand({ command }: { command: string }) {
   const tokens = command.match(/("[^"]*"|[^\s]+)/g) ?? []
   return (
     <>
       {tokens.map((token, i) => {
-        let color = 'text-slate-200'
-        if (token.startsWith('--')) color = 'text-cyan-400'
-        else if (token.startsWith('"') && token.endsWith('"')) color = 'text-amber-300'
-        else if (token.startsWith('http')) color = 'text-cyan-300'
-        else if (token.startsWith('/')) color = 'text-slate-300'
-        else if (token.endsWith('.md') || token.endsWith('.git')) color = 'text-slate-300'
-        else if (i === 0) color = 'font-semibold text-emerald-400'
-        else if (i === 1) color = 'text-white'
+        let color = 'text-[#c9d1d9]'
+        if (token.startsWith('--')) color = 'text-[#79c0ff]'
+        else if (token.startsWith('"') && token.endsWith('"')) color = 'text-[#a5d6ff]'
+        else if (token.startsWith('http')) color = 'text-[#a5d6ff]'
+        else if (i === 0) color = 'font-semibold text-[#e6edf3]'
         return (
           <span key={`${token}-${i}`} className={color}>
             {token}
@@ -100,35 +97,30 @@ function HighlightedCommand({ command }: { command: string }) {
 
 export function Usage() {
   return (
-    <section id="usage" className="relative scroll-mt-20 px-4 py-20 sm:px-6 sm:py-28">
+    <section
+      id="how-it-works"
+      className="scroll-mt-20 border-t border-[#21262d] px-4 py-20 sm:px-6 lg:py-24"
+    >
       <div className="mx-auto max-w-4xl">
         <SectionHeading
-          kicker="quick usage"
-          title={
-            <>
-              Six commands.{' '}
-              <span className="bg-gradient-to-r from-cyan-400 to-emerald-400 bg-clip-text text-transparent">
-                Zero configuration.
-              </span>
-            </>
-          }
+          title="How it works"
           description="From a local directory to a fully AI-reasoned migration plan — pick a workflow, copy the command, ship."
         />
 
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.55, ease: 'easeOut' }}
-          className="mt-12"
+          transition={{ duration: 0.4, ease: 'easeOut' }}
+          className="mt-10"
         >
-          <Tabs defaultValue="basic" className="gap-5">
-            <TabsList className="grid h-auto w-full grid-cols-2 gap-1.5 rounded-2xl border border-white/[0.07] bg-[#161B22]/70 p-2 backdrop-blur-xl sm:grid-cols-3 lg:grid-cols-6">
+          <Tabs defaultValue="basic" className="gap-4">
+            <TabsList className="h-auto w-full gap-1 rounded-md border border-[#30363d] bg-[#0d1117] p-1">
               {USAGE_TABS.map((tab) => (
                 <TabsTrigger
                   key={tab.id}
                   value={tab.id}
-                  className="flex h-auto flex-col gap-1.5 rounded-xl px-2 py-2.5 text-xs font-medium text-slate-400 transition-all data-[state=active]:border-emerald-500/30 data-[state=active]:bg-emerald-500/10 data-[state=active]:text-emerald-300 data-[state=active]:shadow-[0_0_20px_-6px_rgba(16,185,129,0.5)] hover:text-slate-200"
+                  className="flex h-auto flex-col items-center gap-1.5 rounded px-2 py-2.5 text-xs font-medium text-[#8b949e] transition-colors data-[state=active]:border-[#30363d] data-[state=active]:bg-[#161b22] data-[state=active]:text-[#e6edf3] hover:text-[#c9d1d9]"
                 >
                   <tab.icon className="h-4 w-4" />
                   {tab.label}
@@ -138,30 +130,21 @@ export function Usage() {
 
             {USAGE_TABS.map((tab) => (
               <TabsContent key={tab.id} value={tab.id} className="mt-0">
-                <div className="rounded-2xl border border-white/[0.07] bg-[#161B22]/50 p-5 backdrop-blur-xl sm:p-6">
-                  <div className="flex flex-wrap items-center gap-2 text-xs font-medium tracking-wide text-cyan-400/90">
-                    <tab.icon className="h-3.5 w-3.5" />
-                    <span className="uppercase">{tab.label}</span>
-                    <span className="hidden font-mono text-slate-600 sm:inline">
-                      — {tab.id === 'json' ? 'machine-readable output' : 'terminal workflow'}
-                    </span>
-                  </div>
-                  <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-400 sm:text-[15px]">
+                <div className="rounded-md border border-[#30363d] bg-[#161b22] p-5">
+                  <p className="max-w-2xl text-sm leading-relaxed text-[#8b949e]">
                     {tab.description}
                   </p>
-                  <div className="relative mt-5 overflow-x-auto rounded-xl border border-white/10 bg-[#0D1117] p-4 pr-24 shadow-[inset_0_1px_0_rgba(255,255,255,0.03),0_0_30px_-14px_rgba(16,185,129,0.4)] scrollbar-slim sm:p-5 sm:pr-28">
-                    <div className="flex items-start gap-2.5 font-mono text-[13px] leading-relaxed whitespace-nowrap sm:text-sm">
-                      <span className="select-none text-emerald-500" aria-hidden>
-                        $
-                      </span>
+                  <div className="scrollbar-slim relative mt-4 overflow-x-auto rounded-md border border-[#30363d] bg-[#0d1117] py-3.5 pr-16 pl-4">
+                    <p className="font-mono text-[13px] leading-relaxed whitespace-nowrap">
+                      <span className="mr-2 select-none text-[#6e7681]">$</span>
                       <code aria-label={`Command: ${tab.command}`}>
                         <HighlightedCommand command={tab.command} />
                       </code>
-                    </div>
+                    </p>
                     <CopyButton
                       value={tab.command}
                       aria-label={`Copy ${tab.label} command`}
-                      className="absolute top-3.5 right-3.5 h-8 w-8 sm:h-9 sm:w-9"
+                      className="absolute top-1/2 right-3 h-8 w-8 -translate-y-1/2"
                     />
                   </div>
                 </div>

@@ -4,27 +4,27 @@ import { motion } from 'framer-motion'
 import type { ReactNode } from 'react'
 
 interface SectionHeadingProps {
-  kicker: string
   title: ReactNode
   description?: ReactNode
+  align?: 'center' | 'left'
 }
 
-export function SectionHeading({ kicker, title, description }: SectionHeadingProps) {
+export function SectionHeading({ title, description, align = 'center' }: SectionHeadingProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 18 }}
+      initial={{ opacity: 0, y: 10 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-80px' }}
-      transition={{ duration: 0.55, ease: 'easeOut' }}
-      className="mx-auto max-w-3xl text-center"
+      transition={{ duration: 0.4, ease: 'easeOut' }}
+      className={
+        align === 'center' ? 'mx-auto max-w-2xl text-center' : 'max-w-2xl text-left'
+      }
     >
-      <p className="font-mono text-xs tracking-[0.25em] text-emerald-400/90 uppercase">
-        {'// '}
-        {kicker}
-      </p>
-      <h2 className="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">{title}</h2>
+      <h2 className="text-3xl font-bold tracking-[-0.02em] text-[#f0f6fc] sm:text-4xl">
+        {title}
+      </h2>
       {description ? (
-        <p className="mt-4 text-base leading-relaxed text-slate-400 sm:text-lg">{description}</p>
+        <p className="mt-4 text-base leading-relaxed text-[#8b949e]">{description}</p>
       ) : null}
     </motion.div>
   )

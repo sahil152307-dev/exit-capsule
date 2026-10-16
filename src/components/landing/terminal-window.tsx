@@ -5,12 +5,13 @@ interface TerminalWindowProps {
   title?: string
   children: ReactNode
   className?: string
+  /** Slot rendered at the right side of the title bar (badges etc.). */
   actions?: ReactNode
 }
 
-/** macOS-style terminal frame with traffic-light dots and a neon top sheen. */
+/** Quiet editor-style window chrome: muted traffic lights, 1px border, no glow. */
 export function TerminalWindow({
-  title = 'bash — ~/project',
+  title,
   children,
   className,
   actions,
@@ -18,17 +19,22 @@ export function TerminalWindow({
   return (
     <div
       className={cn(
-        'relative overflow-hidden rounded-xl border border-white/10 bg-[#0D1117]/95 shadow-[0_0_70px_-18px_rgba(16,185,129,0.45)] backdrop-blur-xl',
+        'overflow-hidden rounded-md border border-[#30363d] bg-[#161b22]',
         className
       )}
     >
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-px bg-gradient-to-r from-transparent via-emerald-400/60 to-transparent" />
-      <div className="flex items-center gap-2 border-b border-white/[0.06] bg-white/[0.02] px-4 py-3">
-        <span className="h-3 w-3 rounded-full bg-[#FF5F57] shadow-[0_0_8px_rgba(255,95,87,0.55)]" />
-        <span className="h-3 w-3 rounded-full bg-[#FEBC2E] shadow-[0_0_8px_rgba(254,188,46,0.55)]" />
-        <span className="h-3 w-3 rounded-full bg-[#28C840] shadow-[0_0_8px_rgba(40,200,64,0.55)]" />
-        <span className="ml-2 truncate font-mono text-xs text-slate-500">{title}</span>
-        {actions ? <div className="ml-auto flex items-center gap-2">{actions}</div> : null}
+      <div className="flex min-h-[38px] items-center gap-2 border-b border-[#30363d] bg-[#161b22] px-3.5 py-2">
+        <span className="flex gap-1.5" aria-hidden>
+          <span className="h-[11px] w-[11px] rounded-full bg-[#484f58]" />
+          <span className="h-[11px] w-[11px] rounded-full bg-[#484f58]" />
+          <span className="h-[11px] w-[11px] rounded-full bg-[#484f58]" />
+        </span>
+        {title ? (
+          <span className="ml-1.5 truncate font-mono text-[11.5px] text-[#8b949e]">
+            {title}
+          </span>
+        ) : null}
+        {actions ? <div className="ml-auto flex items-center gap-1.5">{actions}</div> : null}
       </div>
       {children}
     </div>

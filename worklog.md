@@ -35,3 +35,32 @@ Verification (agent-browser + VLM):
 
 Stage Summary:
 - Landing page live at / (port 3000) with all 5 specified sections, dark cyber theme (#0D1117/#10B981/#06B6D4/#161B22), glassmorphism, terminal animations, and full interactivity verified end-to-end
+
+---
+Task ID: 2
+Agent: Main Agent (Z.ai)
+Task: Redesign per user feedback — swap GitHub repo URL, fix "vibe coded" typography, remove emojis, de-neon, match reference image (terminal management, font sizes/colors, copy)
+
+Work Log:
+- Analyzed reference image with VLM (2 passes: full-page + terminal card focus) — extracted GitHub-dark palette, exact terminal card row structure, token colors, and copy
+- Fetched real repo (sahil152307-dev/exit-capsule) README + pyproject.toml — real version v1.0.0, MIT license
+- layout.tsx: swapped Geist → Inter (sans) + JetBrains Mono; new metadata (ExitKit title/desc)
+- globals.css: removed badge-glow/neon animations; GitHub-dark palette (selection #388bfd tint, scrollbar #30363d)
+- terminal-window.tsx: muted gray traffic lights (#484f58), 1px #30363d border, #161b22 bg, no glow/sheen
+- hero-terminal.tsx: rebuilt as reference-style stack — (1) exit-capsule.md diff card: gemma-4 purple pill + pytest green pill badges, migration rows (requests-old=2.18.0 → httpx≥0.27.0 with blue pkgs/gray versions/purple arrow), thin purple gradient confidence bars (94%/97% GEMMA-4), file refs (parser.py:42 • core.py:108), status tags (High Risk red / 4/4 pytests green / 1 gap found amber, Lucide icons not emoji); (2) live scan card: LIVE badge with pinging green dot, typed "exit-capsule scan ./LinkWatch --verify" + blinking caret
+- hero.tsx: two-column (45/55) — left: "Powered by Gemma 4" pill, H1 "Automated Dependency Resilience & Safe Migrations for Open Source" (white, no gradient), body copy from image, green #238636 CTA "Explore the live demo", GitHub-style pip install box with copy button
+- navbar.tsx: "ExitKit" + v1.0.0 mono badge, links (How it works / Live Capsule / Features), GitHub icon → real repo
+- capabilities.tsx → Features: flat #161b22 cards, #30363d borders, no lift/glow/gradient text, all emoji removed
+- usage.tsx → How it works: flat tab bar, GitHub syntax colors (white binary / #79c0ff flags / #a5d6ff strings)
+- architecture.tsx → Live Capsule: two panels — capsule report anatomy tree + exitkit/ project tree, color-coded (#79c0ff dirs)
+- footer.tsx: real repo URL, muted tagline, MIT license
+- page.tsx: flat #0d1117 bg, removed BackgroundFx neon orbs/grid, hairline section dividers
+- ALL GitHub URLs → https://github.com/sahil152307-dev/exit-capsule
+
+Verification:
+- lint clean; multiple fresh reloads all HTTP 200, zero runtime errors (500s in log were transient mid-rewrite hot-reload artifacts, confirmed stable)
+- Structure verified: 3 h2 + 4 h3 + h1, all nav/footer links, tabs, copy states (green #238636 feedback), typing animation, diff card content, anchor scroll
+- Desktop 1440px + Mobile 390px full screenshots VLM-audited: NO DEFECTS FOUND (no neon, no emoji, no overflow)
+
+Stage Summary:
+- Landing page redesigned to restrained GitHub-dark enterprise aesthetic per reference image; real repo content and URLs; all emojis removed; typography Inter + JetBrains Mono

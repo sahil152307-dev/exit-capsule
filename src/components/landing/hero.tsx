@@ -120,11 +120,14 @@ export function Hero() {
           </motion.ul>
         </div>
 
-        {/* Right — animated terminal stack */}
+        {/* Right — animated terminal stack (min-w-0 keeps the card inside its
+            grid cell; long real-CLI lines scroll inside the terminal instead
+            of stretching the page) */}
         <motion.div
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.15, ease: 'easeOut' }}
+          className="min-w-0"
         >
           <HeroTerminals />
         </motion.div>

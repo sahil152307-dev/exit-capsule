@@ -111,3 +111,27 @@ Verification:
 
 Stage Summary:
 - All terminal windows now carry authentic MacBook traffic lights (real colors + size + spacing) with macOS-style hover glyph reveal; verified computationally + visually
+
+---
+Task ID: 5
+Agent: Main Agent (Z.ai)
+Task: Per user feedback — hero terminal must show the REAL CLI output (PowerShell session: exit-capsule scan <remote GitHub repo> → clone → capsule report → at-risk table → saved .md), replacing the fabricated demo content
+
+Work Log:
+- hero-terminal.tsx: full rewrite reproducing the real session 1:1 —
+  - Prompt `PS C:\Users\kiran>` + typed command `exit-capsule scan https://github.com/NonHumanPerson/H26_ShadowGarden_exit-capsule` (binary white, URL #a5d6ff), title bar "PowerShell — C:\Users\kiran"
+  - Streamed stages verbatim: Cloning remote repository ➜ / repo name / Done! Here's the Dependency Exit Capsule… / 📊 Summary (3 scanned | 3 at-risk | Python) / 🔴 Critical At-Risk table (ch-precision flex columns 15/13/47ch + 2ch indent, rows repo-scanner·test-runner·tomli, Undeclared amber #e3b341, usage paths #79c0ff) / 🧪 Test Status (--verify tip) / 🎯 Migration Priorities (➜ green) / 📄 saved-to #3fb950 / 💡 AI_INTEGRATION_GUIDE.md tip #d2a8ff / final blinking prompt
+  - Emojis (📊🔴🧪🎯📄💡) kept — they are part of the tool's real output (Noto Color Emoji confirmed rendering)
+  - Removed CapsuleSummaryCard + SUMMARY_ROWS (fabricated 18/4/2 + 12/12 pytests contradicted the real 3/3-undeclared baseline-skipped output)
+  - sr-only live region rewritten to match real session
+- hero.tsx: right grid item + min-w-0 — the 105ch table row made the item's min-content 853px, blowing past its 55fr cell (603px) and pushing the page 96px wide; min-w-0 caps the card in-cell, terminal scrolls internally (230px) like a real terminal
+- usage.tsx: TabsList → scrollbar-slim overflow-x-auto + TabsTrigger shrink-0 — fixed PRE-EXISTING mobile overflow (tab bar 90px wider than 358px cell; "CI/CD JSON" tab stuck 73px past viewport; undetected since Task 1 because audits were visual-only)
+
+Verification:
+- lint clean; zero page-level horizontal overflow on desktop 1280 (0px) and mobile 390 (0px, was 73px)
+- Full stream verified after 9.5s: prompt/fullCmd/done/summary/table(3 rows, amber Undeclared rgb(227,179,65), blue usage)/test/migration/saved/tip/final caret — all present; all 6 emojis in DOM
+- Geometry: terminal 603px in-cell, internal scroll 230px; H1 493px; mobile sections render post scroll-through (framer-motion whileInView opacity-0 false positive handled per Task-3 procedure)
+- VLM desktop audit: all 9 real-output elements present + correctly formatted, traffic lights OK; "cut-off" flags = internal scroll clip by design (105ch lines vs 76ch window, real terminal behavior)
+
+Stage Summary:
+- Hero terminal now replays the user's actual `exit-capsule scan` PowerShell session against the remote repo, 1:1 with real output, fixing 2 layout bugs along the way (hero grid min-width blowout, pre-existing mobile tab overflow)

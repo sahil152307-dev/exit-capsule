@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "A) horizontal overflow yes\nB) hero terminal shows PS prompt + scan command + emoji headers yes\nC) middle sections present: capability cards + usage tabs + architecture trees yes\nD) footer present yes\nE) defects found: horizontal scrollbar visible on code blocks and terminal windows; text truncation in 'Quick Usage' command line.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1792158666,
+  "id": "2026101621510420aa4a70c79f420f",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "2026101621510420aa4a70c79f420f",
+  "usage": {
+    "completion_tokens": 70,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 2401,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 2471
+  }
+}

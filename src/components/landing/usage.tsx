@@ -115,12 +115,12 @@ export function Usage() {
           className="mt-10"
         >
           <Tabs defaultValue="basic" className="gap-4">
-            <TabsList className="h-auto w-full gap-1 rounded-md border border-[#30363d] bg-[#0d1117] p-1">
+            <TabsList className="scrollbar-slim h-auto w-full gap-1 overflow-x-auto rounded-md border border-[#30363d] bg-[#0d1117] p-1">
               {USAGE_TABS.map((tab) => (
                 <TabsTrigger
                   key={tab.id}
                   value={tab.id}
-                  className="flex h-auto flex-col items-center gap-1.5 rounded px-2 py-2.5 text-xs font-medium text-[#8b949e] transition-colors data-[state=active]:border-[#30363d] data-[state=active]:bg-[#161b22] data-[state=active]:text-[#e6edf3] hover:text-[#c9d1d9]"
+                  className="flex h-auto shrink-0 flex-col items-center gap-1.5 rounded px-2 py-2.5 text-xs font-medium text-[#8b949e] transition-colors data-[state=active]:border-[#30363d] data-[state=active]:bg-[#161b22] data-[state=active]:text-[#e6edf3] hover:text-[#c9d1d9]"
                 >
                   <tab.icon className="h-4 w-4" />
                   {tab.label}

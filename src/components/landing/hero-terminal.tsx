@@ -1,120 +1,123 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Check, TriangleAlert } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { Check, Sparkles } from 'lucide-react'
 import { TerminalWindow } from './terminal-window'
-import { cn } from '@/lib/utils'
 
 /* ------------------------------------------------------------------ */
-/* Top card — capsule diff view (reference: exit-capsule.md card)      */
+/* Top card — animated scan terminal (original content)                */
 /* ------------------------------------------------------------------ */
 
-interface Migration {
-  from: string
-  fromSuffix: string
-  to: string
-  toSuffix: string
-  confidence: number
-  files: string
-  tags: {
-    kind: 'risk' | 'pass' | 'gap'
-    label: string
-  }[]
-}
+const COMMAND = 'exit-capsule scan . --verify'
 
-const MIGRATIONS: Migration[] = [
-  {
-    from: 'requests',
-    fromSuffix: '-old=2.18.0',
-    to: 'httpx',
-    toSuffix: '≥0.27.0',
-    confidence: 94,
-    files: 'parser.py:42 • core.py:108',
-    tags: [
-      { kind: 'risk', label: 'High Risk' },
-      { kind: 'pass', label: '4/4 pytests passed' },
-    ],
-  },
-  {
-    from: 'pyyaml',
-    fromSuffix: '=3.12',
-    to: 'PyYAML',
-    toSuffix: '≥ 6.0.1',
-    confidence: 97,
-    files: 'config.py:9 • cli.py:77',
-    tags: [
-      { kind: 'risk', label: 'High Risk' },
-      { kind: 'gap', label: '1 gap found' },
-    ],
-  },
-]
+const OUTPUT_LINES = [
+  'Real Manifest Parsing (requirements.txt, pyproject.toml, setup.py)',
+  'Real AST Code Scanning (Active, Unused, and Undeclared mapped)',
+  'Subprocess Pytest Runner (Execution verified in sandbox)',
+  'Gemini AI Migration Reasoning Generated',
+] as const
 
-const TAG_STYLES = {
-  risk: 'border-[#f85149]/40 bg-[#f85149]/10 text-[#ff7b72]',
-  pass: 'border-[#238636]/50 bg-[#238636]/15 text-[#3fb950]',
-  gap: 'border-[#d29922]/40 bg-[#d29922]/10 text-[#e3b341]',
-} as const
+const TYPE_MS = 32
+const LINE_GAP_MS = 330
 
-function MigrationBlock({ migration }: { migration: Migration }) {
+function Caret() {
   return (
-    <div className="px-4 py-4 sm:px-5">
-      {/* Row 1 — version transition */}
-      <p className="font-mono text-[12.5px] whitespace-nowrap sm:text-[13px]">
-        <span className="text-[#79c0ff]">{migration.from}</span>
-        <span className="text-[#8b949e]">{migration.fromSuffix}</span>
-        <span className="mx-1.5 text-[#d2a8ff]">→</span>
-        <span className="text-[#79c0ff]">{migration.to}</span>
-        <span className="text-[#e6edf3]">{migration.toSuffix}</span>
-      </p>
-
-      {/* Row 2 — confidence bar */}
-      <div className="mt-2.5 flex items-center gap-3">
-        <div className="h-1 max-w-[240px] flex-1 overflow-hidden rounded-full bg-[#21262d]">
-          <div
-            className="h-full rounded-full bg-gradient-to-r from-[#8957e5] to-[#6f42c1]"
-            style={{ width: `${migration.confidence}%` }}
-          />
-        </div>
-        <p className="font-mono text-[11px] whitespace-nowrap">
-          <span className="font-semibold text-[#e6edf3]">{migration.confidence}%</span>{' '}
-          <span className="text-[#8b949e]">GEMMA-4</span>
-        </p>
-      </div>
-
-      {/* Row 3 — file references + status tags */}
-      <div className="mt-2.5 flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
-        <p className="font-mono text-[11px] text-[#6e7681]">{migration.files}</p>
-        <div className="flex flex-wrap items-center gap-1.5">
-          {migration.tags.map((tag) => (
-            <span
-              key={tag.label}
-              className={cn(
-                'inline-flex items-center gap-1 rounded-full border px-2 py-0.5 font-mono text-[10.5px] whitespace-nowrap',
-                TAG_STYLES[tag.kind]
-              )}
-            >
-              {tag.kind === 'pass' ? (
-                <Check className="h-3 w-3" />
-              ) : (
-                <TriangleAlert className="h-3 w-3" />
-              )}
-              {tag.label}
-            </span>
-          ))}
-        </div>
-      </div>
-    </div>
+    <span
+      aria-hidden
+      className="animate-caret ml-0.5 inline-block h-[14px] w-[7px] translate-y-[2px] bg-[#8b949e]"
+    />
   )
 }
 
-function CapsuleDiffCard() {
+export function ScanTerminal() {
+  const [typed, setTyped] = useState(0)
+  const [visible, setVisible] = useState(0)
+
+  useEffect(() => {
+    const timers: ReturnType<typeof setTimeout>[] = []
+    for (let i = 1; i <= COMMAND.length; i++) {
+      timers.push(setTimeout(() => setTyped(i), 350 + TYPE_MS * i))
+    }
+    const outStart = 350 + TYPE_MS * COMMAND.length + 550
+    OUTPUT_LINES.forEach((_, idx) => {
+      timers.push(setTimeout(() => setVisible(idx + 1), outStart + LINE_GAP_MS * idx))
+    })
+    timers.push(
+      setTimeout(
+        () => setVisible(OUTPUT_LINES.length + 1),
+        outStart + LINE_GAP_MS * OUTPUT_LINES.length + 520
+      )
+    )
+    return () => timers.forEach(clearTimeout)
+  }, [])
+
+  const typing = typed < COMMAND.length
+  const done = visible > OUTPUT_LINES.length
+
+  return (
+    <TerminalWindow title="exit-capsule — ~/legacy-project">
+      <div className="scrollbar-slim overflow-x-auto px-4 py-4 font-mono text-[12.5px] leading-[1.9] sm:px-5 sm:text-[13px]">
+        <div className="sr-only" aria-live="polite">
+          exit-capsule scan with verify — manifest parsing, AST code scanning, subprocess pytest
+          runner and Gemini AI migration reasoning complete. Generated DEPENDENCY_EXIT_CAPSULE.md.
+        </div>
+        <div className="flex items-start gap-2 whitespace-nowrap">
+          <span className="select-none text-[#6e7681]">$</span>
+          <span className="text-[#c9d1d9]">
+            {COMMAND.slice(0, typed)}
+            {typing ? <Caret /> : null}
+          </span>
+        </div>
+
+        <div aria-hidden>
+          {OUTPUT_LINES.slice(0, Math.min(visible, OUTPUT_LINES.length)).map((line, i) => (
+            <div key={i} className="terminal-line flex items-start gap-2 py-0.5">
+              <Check className="mt-[4px] h-3.5 w-3.5 shrink-0 text-[#3fb950]" />
+              <span className="text-[#c9d1d9]">{line}</span>
+            </div>
+          ))}
+
+          {done ? (
+            <div className="terminal-line flex items-start gap-2 py-0.5">
+              <Sparkles className="mt-[4px] h-3.5 w-3.5 shrink-0 text-[#d2a8ff]" />
+              <span className="text-[#c9d1d9]">
+                Generated{' '}
+                <span className="font-semibold text-[#3fb950]">DEPENDENCY_EXIT_CAPSULE.md</span>!
+              </span>
+            </div>
+          ) : null}
+
+          {done ? (
+            <div className="flex items-center gap-2 pt-0.5 whitespace-nowrap">
+              <span className="select-none text-[#6e7681]">$</span>
+              <Caret />
+            </div>
+          ) : null}
+        </div>
+      </div>
+    </TerminalWindow>
+  )
+}
+
+/* ------------------------------------------------------------------ */
+/* Bottom card — animated capsule summary                              */
+/* ------------------------------------------------------------------ */
+
+const SUMMARY_ROWS = [
+  { label: 'Active (used)', count: 18, pct: 72, bar: 'bg-[#3fb950]', count: 'text-[#3fb950]' },
+  { label: 'Unused (bloat)', count: 4, pct: 16, bar: 'bg-[#e3b341]', count: 'text-[#e3b341]' },
+  { label: 'Undeclared', count: 2, pct: 9, bar: 'bg-[#f85149]', count: 'text-[#ff7b72]' },
+]
+
+export function CapsuleSummaryCard() {
   return (
     <TerminalWindow
-      title="exit-capsule.md — LinkWatch"
+      title="DEPENDENCY_EXIT_CAPSULE.md"
       actions={
         <>
           <span className="rounded-full bg-[#8957e5] px-2 py-0.5 font-mono text-[10.5px] font-medium text-white">
-            gemma-4
+            gemini
           </span>
           <span className="rounded-full bg-[#238636] px-2 py-0.5 font-mono text-[10.5px] font-medium text-white">
             pytest
@@ -122,71 +125,39 @@ function CapsuleDiffCard() {
         </>
       }
     >
-      <div className="divide-y divide-[#21262d]">
-        {MIGRATIONS.map((migration) => (
-          <MigrationBlock key={migration.from} migration={migration} />
+      <div className="space-y-3.5 px-4 py-4 sm:px-5">
+        {SUMMARY_ROWS.map((row, i) => (
+          <div key={row.label}>
+            <div className="mb-1.5 flex items-baseline justify-between font-mono text-[11.5px]">
+              <span className="text-[#8b949e]">{row.label}</span>
+              <span className={row.count}>{row.count}</span>
+            </div>
+            <div className="h-1 overflow-hidden rounded-full bg-[#21262d]">
+              <motion.div
+                className={`h-full rounded-full ${row.bar}`}
+                initial={{ width: 0 }}
+                whileInView={{ width: `${row.pct}%` }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.9, delay: 0.4 + i * 0.18, ease: 'easeOut' }}
+              />
+            </div>
+          </div>
         ))}
-      </div>
-    </TerminalWindow>
-  )
-}
 
-/* ------------------------------------------------------------------ */
-/* Bottom card — live scan prompt                                      */
-/* ------------------------------------------------------------------ */
-
-const SCAN_COMMAND = 'exit-capsule scan ./LinkWatch --verify'
-
-function LiveScanCard() {
-  const [typed, setTyped] = useState(0)
-
-  useEffect(() => {
-    const timers: ReturnType<typeof setTimeout>[] = []
-    for (let i = 1; i <= SCAN_COMMAND.length; i++) {
-      timers.push(setTimeout(() => setTyped(i), 500 + 26 * i))
-    }
-    return () => timers.forEach(clearTimeout)
-  }, [])
-
-  return (
-    <TerminalWindow
-      title="exitkit — scan ./LinkWatch"
-      actions={
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-[#30363d] bg-[#0d1117] px-2 py-0.5">
-          <span className="relative flex h-1.5 w-1.5">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#3fb950] opacity-60" />
-            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#3fb950]" />
-          </span>
-          <span className="font-mono text-[10px] font-medium tracking-wide text-[#3fb950]">
-            LIVE
-          </span>
-        </span>
-      }
-    >
-      <div className="scrollbar-slim overflow-x-auto px-4 py-3.5 sm:px-5">
-        <p className="font-mono text-[12.5px] whitespace-nowrap text-[#c9d1d9] sm:text-[13px]">
-          <span className="mr-2 select-none text-[#6e7681]">$</span>
-          {SCAN_COMMAND.slice(0, typed)}
-          <span
-            aria-hidden
-            className="animate-caret ml-0.5 inline-block h-[14px] w-[7px] translate-y-[2px] bg-[#8b949e]"
-          />
-        </p>
-        <div className="sr-only" aria-live="polite">
-          Running exit-capsule scan on LinkWatch with pytest verification
+        <div className="flex items-center gap-1.5 border-t border-[#21262d] pt-3 font-mono text-[11px] text-[#6e7681]">
+          <Check className="h-3 w-3 shrink-0 text-[#3fb950]" />
+          12/12 pytests passed · exit code 0 · 3.42s
         </div>
       </div>
     </TerminalWindow>
   )
 }
 
-/* ------------------------------------------------------------------ */
-
 export function HeroTerminals() {
   return (
     <div className="flex flex-col gap-4">
-      <CapsuleDiffCard />
-      <LiveScanCard />
+      <ScanTerminal />
+      <CapsuleSummaryCard />
     </div>
   )
 }

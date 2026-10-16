@@ -15,7 +15,7 @@ export function Footer() {
         <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
           <a href="#" className="flex items-center gap-2.5" aria-label="Back to top">
             <span className="text-[15px] font-semibold tracking-tight text-[#f0f6fc]">
-              ExitKit
+              Exit Capsule
             </span>
             <span className="rounded border border-[#30363d] bg-[#161b22] px-1.5 py-0.5 font-mono text-[11px] text-[#8b949e]">
               v1.0.0
@@ -46,7 +46,7 @@ export function Footer() {
             open source tool.
           </p>
           <p className="font-mono text-[11.5px] text-[#6e7681]">
-            © {new Date().getFullYear()} ExitKit · MIT License
+            © {new Date().getFullYear()} Exit Capsule · MIT License
           </p>
         </div>
       </div>

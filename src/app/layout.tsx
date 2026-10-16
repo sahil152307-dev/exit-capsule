@@ -16,12 +16,12 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ExitKit — Automated Dependency Resilience & Safe Migrations for Open Source",
+  title: "Exit Capsule Agent — Zero-Hallucination Dependency Analysis & AI Modernization",
   description:
-    "Scan your repository, detect risky dependencies, run automated verification tests, and generate verified Dependency Exit Capsules in seconds.",
+    "Perform real AST import mapping, manifest auditing, sandbox Pytest verification, and Gemini AI migration roadmaps — straight from your terminal.",
   keywords: [
     "exit-capsule",
-    "ExitKit",
+    "Exit Capsule Agent",
     "dependency analysis",
     "AST scanning",
     "pytest verification",
@@ -30,22 +30,22 @@ export const metadata: Metadata = {
     "CLI tool",
     "technical debt",
   ],
-  authors: [{ name: "exitkit" }],
+  authors: [{ name: "Sahil" }],
   icons: {
     icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
   },
   openGraph: {
-    title: "ExitKit — Automated Dependency Resilience",
+    title: "Exit Capsule Agent",
     description:
-      "Scan your repository, detect risky dependencies, run automated verification tests, and generate verified Dependency Exit Capsules in seconds.",
-    siteName: "ExitKit",
+      "Perform real AST import mapping, manifest auditing, sandbox Pytest verification, and Gemini AI migration roadmaps — straight from your terminal.",
+    siteName: "Exit Capsule Agent",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "ExitKit — Automated Dependency Resilience",
+    title: "Exit Capsule Agent",
     description:
-      "Automated dependency resilience and safe migrations for open source.",
+      "Zero-hallucination dependency analysis & AI modernization — straight from your terminal.",
   },
 };
 

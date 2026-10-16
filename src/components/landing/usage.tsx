@@ -98,12 +98,12 @@ function HighlightedCommand({ command }: { command: string }) {
 export function Usage() {
   return (
     <section
-      id="how-it-works"
+      id="usage"
       className="scroll-mt-20 border-t border-[#21262d] px-4 py-20 sm:px-6 lg:py-24"
     >
       <div className="mx-auto max-w-4xl">
         <SectionHeading
-          title="How it works"
+          title="Quick Usage"
           description="From a local directory to a fully AI-reasoned migration plan — pick a workflow, copy the command, ship."
         />
 

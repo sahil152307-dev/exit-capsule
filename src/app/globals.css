@@ -150,6 +150,23 @@ html {
   animation: line-in 0.3s ease-out both;
 }
 
+/* Slow ambient drift for background blobs */
+@keyframes drift-a {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(52px, 38px) scale(1.07); }
+}
+@keyframes drift-b {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-46px, 54px) scale(1.05); }
+}
+@keyframes drift-c {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(42px, -34px) scale(1.06); }
+}
+.animate-drift-a { animation: drift-a 26s ease-in-out infinite; }
+.animate-drift-b { animation: drift-b 32s ease-in-out infinite; }
+.animate-drift-c { animation: drift-c 29s ease-in-out infinite; }
+
 /* Muted scrollbars for terminal / tree areas */
 .scrollbar-slim {
   scrollbar-width: thin;
@@ -168,4 +185,4 @@ html {
 }
 .scrollbar-slim::-webkit-scrollbar-thumb:hover {
   background: #484f58;
-}
+}/* trigger recompile */

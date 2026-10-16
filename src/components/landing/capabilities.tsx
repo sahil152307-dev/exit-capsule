@@ -135,10 +135,13 @@ const FEATURES: Feature[] = [
 
 export function Features() {
   return (
-    <section id="features" className="scroll-mt-20 px-4 py-20 sm:px-6 lg:py-24">
+    <section
+      id="capabilities"
+      className="scroll-mt-20 border-t border-[#21262d] px-4 py-20 sm:px-6 lg:py-24"
+    >
       <div className="mx-auto max-w-6xl">
         <SectionHeading
-          title="Features"
+          title="Core Capabilities"
           description="Four production-grade engines working in concert — from raw manifest parsing to AI-assisted migration planning. Everything real, nothing simulated."
         />
 
@@ -150,7 +153,7 @@ export function Features() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-60px' }}
               transition={{ duration: 0.4, delay: (i % 2) * 0.07, ease: 'easeOut' }}
-              className="rounded-md border border-[#30363d] bg-[#161b22] p-6 transition-colors hover:border-[#3d444d] hover:bg-[#1c2129]"
+              className="rounded-md border border-[#30363d] bg-[#161b22] p-6 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#3d444d] hover:bg-[#1c2129]"
             >
               <div className="mb-4 inline-flex h-9 w-9 items-center justify-center rounded-md border border-[#30363d] bg-[#0d1117]">
                 <feature.icon className="h-[18px] w-[18px] text-[#79c0ff]" />

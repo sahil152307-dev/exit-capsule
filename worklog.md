@@ -64,3 +64,29 @@ Verification:
 
 Stage Summary:
 - Landing page redesigned to restrained GitHub-dark enterprise aesthetic per reference image; real repo content and URLs; all emojis removed; typography Inter + JetBrains Mono
+
+---
+Task ID: 3
+Agent: Main Agent (Z.ai)
+Task: Per user feedback — remove reference-image CONTENT (Gemma 4 pill, LinkWatch, "Automated Dependency Resilience" headline), keep only its STYLE; liven up the flat background with subtle animation; restore the terminal typing animation
+
+Work Log:
+- hero.tsx: restored ORIGINAL content — "Live on PyPI | v1.0.0 | Production-Ready CLI Tool" badge (green ping dot, no emoji), H1 "Zero-Hallucination (green) Dependency Analysis & AI Modernization", original subheadline with AST/Pytest/Gemini AI chips, Get Started (green #238636) + pip install box w/ copy + View on GitHub CTAs, trust ticks
+- hero-terminal.tsx: rebuilt — (1) ScanTerminal: types "exit-capsule scan . --verify" then streams 4 check lines (Lucide Check #3fb950) + "Generated DEPENDENCY_EXIT_CAPSULE.md!" (Sparkles #d2a8ff, filename #3fb950) + final blinking prompt; (2) CapsuleSummaryCard: gemini/pytest pills, Active 18 / Unused 4 / Undeclared 2 rows with framer-motion width-animated bars (green/amber/red) + "12/12 pytests passed · exit code 0 · 3.42s"
+- globals.css: added drift-a/b/c keyframes (26-32s slow translate+scale loops) for ambient background blobs
+- page.tsx: BackgroundFx — fixed z-0 layer with faint grid (radial mask) + 3 low-opacity emerald/cyan blobs (5-7% opacity, 100-120px blur) slowly drifting; content z-10
+- navbar.tsx/footer.tsx: brand "Exit Capsule" (was ExitKit), links Capabilities/Usage/Architecture
+- capabilities/usage/architecture: retitled to Core Capabilities / Quick Usage (id=usage) / Project Architecture (id=architecture); hairline dividers; subtle hover lift on cards
+- layout.tsx: metadata restored to Exit Capsule Agent original title/description
+
+Issue Found & Fixed:
+- Served CSS chunk was stale (drift rules missing despite correct source) — Turbopack CSS hot-reload silently failed; appended a comment to globals.css to force recompile, rules then served correctly
+
+Verification:
+- lint clean; zero runtime errors; content checks pass (original content present, NO Gemma 4/LinkWatch/reference headline)
+- Animations verified via computed styles: drift-a/b/c running, caret-blink running, terminal typing completes, summary bars animate to width
+- Tabs, copy buttons, anchor nav (#architecture) all working
+- Desktop + mobile full screenshots VLM-audited after scroll-through: NO DEFECTS FOUND (first desktop audit flagged "missing sections" — false positive from framer-motion whileInView opacity-0 at capture time; fixed by scrolling before screenshot; "Gemini AI chip" flag is intentional original product content)
+
+Stage Summary:
+- Original Exit Capsule Agent content restored with the reference's restrained GitHub-dark STYLE, subtle animated ambient background, and restored terminal typing animation + animated summary card

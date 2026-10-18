@@ -1,0 +1,166 @@
+'use client'
+
+import { motion } from 'framer-motion'
+import { SectionHeading } from './section-heading'
+import { TerminalWindow } from './terminal-window'
+
+/* Panel A — what the generated capsule contains */
+const CAPSULE_SECTIONS = [
+  { name: 'Dependency Inventory', detail: 'active · unused · undeclared' },
+  { name: 'AST Usage Map', detail: 'file paths & line numbers' },
+  { name: 'Pytest Evidence', detail: 'exit codes · stdout · duration' },
+  { name: 'AI Migration Roadmap', detail: 'step-by-step modernization' },
+]
+
+/* Panel B — project structure (from the repo) */
+const TREE = [
+  { depth: 0, glyph: '', name: 'exitkit/', kind: 'dir' as const },
+  {
+    depth: 0,
+    glyph: '├── ',
+    name: 'pyproject.toml',
+    kind: 'file' as const,
+    comment: 'Build config & entrypoint',
+  },
+  { depth: 0, glyph: '├── ', name: 'exit_capsule/', kind: 'dir' as const },
+  {
+    depth: 1,
+    glyph: '│   ├── ',
+    name: 'models.py',
+    kind: 'file' as const,
+    comment: 'Data models (ScanResult, TestRunResult)',
+  },
+  {
+    depth: 1,
+    glyph: '│   ├── ',
+    name: 'repo_scanner.py',
+    kind: 'file' as const,
+    comment: 'Real manifest parser & AST visitor',
+  },
+  {
+    depth: 1,
+    glyph: '│   ├── ',
+    name: 'test_runner.py',
+    kind: 'file' as const,
+    comment: 'Real subprocess pytest runner',
+  },
+  {
+    depth: 1,
+    glyph: '│   ├── ',
+    name: 'agent_orchestrator.py',
+    kind: 'file' as const,
+    comment: 'Gemini AI & report generator',
+  },
+  {
+    depth: 1,
+    glyph: '│   └── ',
+    name: 'cli.py',
+    kind: 'file' as const,
+    comment: 'Production Typer & Rich CLI',
+  },
+  {
+    depth: 0,
+    glyph: '└── ',
+    name: 'tests/',
+    kind: 'dir' as const,
+    comment: '12 unit & integration tests',
+  },
+]
+
+export function LiveCapsule() {
+  return (
+    <section
+      id="architecture"
+      className="scroll-mt-20 border-t border-[#21262d] px-4 py-20 sm:px-6 lg:py-24"
+    >
+      <div className="mx-auto max-w-6xl">
+        <SectionHeading
+          title="Project Architecture"
+          description="A clean, modular codebase — every module has one responsibility: parsing, execution, reasoning, and presentation."
+        />
+
+        <div className="mt-12 grid gap-4 lg:grid-cols-2">
+          {/* Panel A — capsule report anatomy */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
+          >
+            <TerminalWindow title="DEPENDENCY_EXIT_CAPSULE.md">
+              <div className="p-4 font-mono text-[12.5px] leading-loose sm:p-5 sm:text-[13px]">
+                {CAPSULE_SECTIONS.map((section, i) => (
+                  <div key={section.name} className="flex items-baseline gap-2 py-1">
+                    <span
+                      aria-hidden
+                      className="select-none text-[#484f58]"
+                    >
+                      {i === CAPSULE_SECTIONS.length - 1 ? '└── ' : '├── '}
+                    </span>
+                    <span className="whitespace-nowrap text-[#c9d1d9]">{section.name}</span>
+                    <span
+                      aria-hidden
+                      className="mx-1 hidden flex-1 -translate-y-[3px] border-b border-dotted border-[#21262d] sm:block"
+                    />
+                    <span className="hidden whitespace-nowrap text-[11px] text-[#6e7681] sm:block">
+                      {section.detail}
+                    </span>
+                    <span className="mt-0.5 w-full pl-4 text-[11px] text-[#6e7681] sm:hidden">
+                      {section.detail}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </TerminalWindow>
+          </motion.div>
+
+          {/* Panel B — project structure */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.4, delay: 0.08, ease: 'easeOut' }}
+          >
+            <TerminalWindow title="exitkit — project structure">
+              <div className="scrollbar-slim p-4 font-mono text-[12.5px] leading-loose sm:p-5 sm:text-[13px]">
+                {TREE.map((node) => (
+                  <div
+                    key={`${node.glyph}${node.name}`}
+                    className="flex flex-wrap items-baseline gap-x-2 rounded px-1.5 py-0.5 transition-colors hover:bg-[#1c2129]"
+                  >
+                    <span aria-hidden className="select-none whitespace-pre text-[#484f58]">
+                      {node.glyph}
+                    </span>
+                    <span
+                      className={
+                        node.kind === 'dir'
+                          ? 'whitespace-nowrap font-medium text-[#79c0ff]'
+                          : 'whitespace-nowrap text-[#c9d1d9]'
+                      }
+                    >
+                      {node.name}
+                    </span>
+                    {node.comment ? (
+                      <>
+                        <span
+                          aria-hidden
+                          className="mx-1 hidden flex-1 -translate-y-[3px] border-b border-dotted border-[#21262d] sm:block"
+                        />
+                        <span className="hidden whitespace-nowrap text-[11px] text-[#6e7681] sm:block">
+                          # {node.comment}
+                        </span>
+                        <span className="mt-0.5 w-full pl-4 text-[11px] text-[#6e7681] sm:hidden">
+                          # {node.comment}
+                        </span>
+                      </>
+                    ) : null}
+                  </div>
+                ))}
+              </div>
+            </TerminalWindow>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  )
+}
